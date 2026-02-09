@@ -1,5 +1,9 @@
 # ![Juice Shop Logo](https://raw.githubusercontent.com/juice-shop/juice-shop/master/frontend/src/assets/public/images/JuiceShop_Logo_100px.png) OWASP Juice Shop
 
+<p align="center">
+  <em>Probably the most modern and sophisticated insecure web application</em>
+</p>
+
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-48A646.svg)](https://owasp.org/projects/#sec-flagships)
 [![GitHub release](https://img.shields.io/github/release/juice-shop/juice-shop.svg)](https://github.com/juice-shop/juice-shop/releases/latest)
 [![Twitter Follow](https://img.shields.io/twitter/follow/owasp_juiceshop.svg?style=social&label=Follow)](https://twitter.com/owasp_juiceshop)
@@ -23,18 +27,68 @@
 > ([@coderPatros' wife](https://twitter.com/coderPatros))
 
 OWASP Juice Shop is probably the most modern and sophisticated insecure web application! It can be used in security
-trainings, awareness demos, CTFs and as a guinea pig for security tools! Juice Shop encompasses vulnerabilities from the
-entire
-[OWASP Top Ten](https://owasp.org/www-project-top-ten) along with many other security flaws found in real-world
-applications!
+trainings, awareness demos, CTFs and as a guinea pig for security tools! Juice Shop encompasses vulnerabilities from 
+the entire [OWASP Top Ten](https://owasp.org/www-project-top-ten) along with many other security flaws found in 
+real-world applications!
 
 ![Juice Shop Screenshot Slideshow](screenshots/slideshow.gif)
 
 For a detailed introduction, full list of features and architecture overview please visit the official project page:
 <https://owasp-juice.shop>
 
+## :warning: Security Warning
+
+**OWASP Juice Shop is an intentionally insecure application!** It contains numerous security vulnerabilities that you 
+would **never** want to introduce into a real production application. This application is designed for training 
+purposes only and should never be used as a template for building real applications.
+
+- **Do not host this application on public servers** unless you know exactly what you're doing
+- **Do not use any code from this application** in production systems
+- Running Juice Shop on your local machine or in an isolated environment is recommended
+- Use at your own risk - this application will expose your system to security risks if improperly configured
+
+## Quick Start
+
+Get started with OWASP Juice Shop in less than 5 minutes:
+
+```bash
+# Using Docker (Recommended)
+docker pull bkimminich/juice-shop
+docker run --rm -p 3000:3000 bkimminich/juice-shop
+
+# Or from source
+git clone https://github.com/juice-shop/juice-shop.git --depth 1
+cd juice-shop
+npm install
+npm start
+```
+
+Then browse to <http://localhost:3000> and start hacking!
+
+## Features
+
+- **100+ Hacking Challenges** covering all major vulnerability categories
+- **OWASP Top 10 Coverage** - All current OWASP Top 10 vulnerabilities included
+- **Realistic User Interface** - Modern web application built with Angular
+- **Multiple Difficulty Levels** - From trivial to expert level challenges
+- **Hacking Instructor** - Built-in tutorial mode for beginners
+- **CTF Support** - Built-in CTF flag codes and integration with CTFd
+- **Score Board** - Track your hacking progress
+- **Multi-language Support** - Available in 40+ languages
+- **Coding Challenges** - Find and fix vulnerable code snippets
+- **Self-healing** - Application can restore itself after being compromised
+- **Extensive Documentation** - Free companion guide with solutions
+- **Realistic Scenarios** - E-commerce application with products, reviews, orders
+- **API Endpoints** - RESTful API for additional attack surface
+- **Web3/Blockchain Challenges** - Including NFT and smart contract vulnerabilities
+- **Monitoring** - Prometheus metrics and Grafana dashboards
+- **Customizable** - Easy to rebrand and customize for your training needs
+
 ## Table of contents
 
+- [Security Warning](#warning-security-warning)
+- [Quick Start](#quick-start)
+- [Features](#features)
 - [Setup](#setup)
     - [From Sources](#from-sources)
     - [Packaged Distributions](#packaged-distributions)
@@ -43,12 +97,20 @@ For a detailed introduction, full list of features and architecture overview ple
 - [Demo](#demo)
 - [Documentation](#documentation)
     - [Node.js version compatibility](#nodejs-version-compatibility)
+    - [Pwning OWASP Juice Shop](#official-companion-guide)
     - [Troubleshooting](#troubleshooting)
-    - [Official companion guide](#official-companion-guide)
+- [Architecture](#architecture)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Configuration](#configuration)
+- [Testing](#testing)
+- [Deployment](#deployment)
 - [Contributing](#contributing)
 - [References](#references)
+- [Community & Support](#community--support)
 - [Merchandise](#merchandise)
 - [Donations](#donations)
+- [FAQ](#faq)
 - [Contributors](#contributors)
 - [Licensing](#licensing)
 
@@ -161,7 +223,7 @@ guide. If this does not solve your issue please post your specific problem or qu
 
 ### Official companion guide
 
-[![Write Goodreads Review](https://img.shields.io/badge/goodreads-write%20review-49557240.svg)](https://www.goodreads.com/review/edit/49557240)
+[![Write Goodreads Review](https://img.shields.io/badge/goodreads-write%20review-372213.svg)](https://www.goodreads.com/review/edit/49557240)
 
 OWASP Juice Shop comes with an official companion guide eBook. It will give you a complete overview of all
 vulnerabilities found in the application including hints how to spot and exploit them. In the appendix you will even
@@ -178,6 +240,249 @@ and is available **for free** in PDF, Kindle and ePub format on LeanPub. You can
 
 [<img alt="Pwning OWASP Juice Shop cover" src="https://raw.githubusercontent.com/juice-shop/pwning-juice-shop/master/docs/modules/ROOT/assets/images/cover.jpg" width="200"/>](https://leanpub.com/juice-shop)
 [<img alt="Pwning OWASP Juice Shop back cover" src="https://raw.githubusercontent.com/juice-shop/pwning-juice-shop/master/docs/modules/ROOT/assets/images/introduction/back.jpg" width="200"/>](https://leanpub.com/juice-shop)
+
+## Architecture
+
+OWASP Juice Shop is a full-stack web application with the following architecture:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        Frontend (Angular)                    │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
+│  │   Products   │  │    Basket    │  │   Account    │     │
+│  │   Reviews    │  │   Checkout   │  │  Challenges  │     │
+│  └──────────────┘  └──────────────┘  └──────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+                            ↕ HTTP/REST API
+┌─────────────────────────────────────────────────────────────┐
+│                    Backend (Node.js/Express)                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
+│  │   Routes     │  │    Models    │  │     Lib      │     │
+│  │  (REST API)  │  │  (Sequelize) │  │  (Business   │     │
+│  │              │  │              │  │    Logic)    │     │
+│  └──────────────┘  └──────────────┘  └──────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+                            ↕
+┌─────────────────────────────────────────────────────────────┐
+│                    Database (SQLite)                         │
+│  Users, Products, Baskets, Challenges, Reviews, etc.        │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Key Components:
+
+- **Frontend**: Single Page Application built with Angular 17+
+- **Backend**: RESTful API built with Node.js and Express
+- **Database**: SQLite3 for data persistence (easily replaceable)
+- **ORM**: Sequelize for database abstraction
+- **Authentication**: JWT tokens (with intentional vulnerabilities)
+- **File Storage**: Local filesystem for uploads
+- **WebSocket**: Socket.io for real-time notifications
+- **Monitoring**: Prometheus metrics endpoint
+
+## Technology Stack
+
+### Backend
+- **Runtime**: Node.js 20-24
+- **Framework**: Express 4.x
+- **Language**: TypeScript 5.x
+- **Database**: SQLite3 (via Sequelize ORM)
+- **Authentication**: JSON Web Tokens (JWT)
+- **WebSocket**: Socket.io
+- **Testing**: Mocha, Jest, Frisby
+- **Validation**: express-validator
+- **Security**: helmet, express-rate-limit (with bypasses)
+
+### Frontend
+- **Framework**: Angular 17+
+- **Language**: TypeScript 5.x
+- **UI Components**: Angular Material
+- **State Management**: RxJS
+- **HTTP Client**: Angular HttpClient
+- **Testing**: Jasmine, Karma, Cypress
+- **Build Tool**: Angular CLI / Webpack
+
+### DevOps & Tools
+- **Containerization**: Docker
+- **CI/CD**: GitHub Actions
+- **Code Quality**: ESLint, StyleLint
+- **Test Coverage**: NYC (Istanbul), Coveralls
+- **Security Scanning**: CodeQL, OWASP ZAP
+- **Documentation**: Swagger/OpenAPI
+
+### Additional Technologies
+- **Web3/Blockchain**: ethers.js, Web3.js
+- **Chatbot**: juicy-chat-bot
+- **Internationalization**: i18n
+- **PDF Generation**: PDFKit
+- **Image Processing**: sharp
+- **CAPTCHA**: svg-captcha
+
+## Project Structure
+
+```
+juice-shop/
+├── app.ts                      # Application entry point
+├── server.ts                   # Server configuration
+├── routes/                     # Express route handlers
+│   ├── login.ts               # Authentication endpoints
+│   ├── basket.ts              # Shopping basket API
+│   ├── product.ts             # Product management
+│   └── ...                    # Other API endpoints
+├── models/                     # Sequelize database models
+│   ├── user.ts                # User model
+│   ├── product.ts             # Product model
+│   └── ...                    # Other models
+├── lib/                        # Business logic and utilities
+│   ├── insecurity.ts          # Intentionally insecure functions
+│   ├── utils.ts               # Helper utilities
+│   └── ...                    # Other libraries
+├── data/                       # Data and configuration
+│   ├── static/                # Static data files
+│   │   ├── challenges.yml     # Challenge definitions
+│   │   ├── users.yml          # Default users
+│   │   └── i18n/              # Translations
+│   └── datacreator.ts         # Database seeding
+├── frontend/                   # Angular frontend application
+│   ├── src/
+│   │   ├── app/               # Angular components
+│   │   ├── assets/            # Static assets
+│   │   └── environments/      # Environment configs
+│   └── package.json           # Frontend dependencies
+├── test/                       # Test suites
+│   ├── api/                   # API integration tests
+│   ├── server/                # Server unit tests
+│   └── cypress/               # E2E tests
+├── config/                     # Application configurations
+│   ├── default.yml            # Default configuration
+│   ├── ctf.yml                # CTF mode configuration
+│   └── ...                    # Other config files
+├── ftp/                        # FTP folder (intentionally exposed)
+├── uploads/                    # File upload directory
+├── encryptionkeys/            # JWT and other keys
+└── views/                      # Server-side templates
+```
+
+## Configuration
+
+Juice Shop can be customized through YAML configuration files in the `config/` directory:
+
+- **`default.yml`** - Default configuration
+- **`ctf.yml`** - CTF mode with flag codes
+- **`fbctf.yml`** - Facebook CTF integration
+- **`tutorial.yml`** - Tutorial/training mode
+- **`unsafe.yml`** - Disables some security features
+
+### Environment Variables
+
+Key environment variables:
+
+- `NODE_ENV` - Set to `production` or `development`
+- `PORT` - Server port (default: 3000)
+- `NODE_CONFIG` - Configuration file to use (e.g., `ctf`)
+
+### Customization
+
+You can customize:
+- Application name and branding
+- Product inventory
+- User accounts
+- Challenge definitions
+- Security questions
+- Translations
+
+See the [Customization Guide](https://pwning.owasp-juice.shop/companion-guide/latest/part4/customization.html) for details.
+
+## Testing
+
+### Run All Tests
+
+```bash
+npm test                # Run all tests (frontend + backend)
+```
+
+### Backend Tests
+
+```bash
+npm run test:server     # Server unit tests (Mocha)
+npm run test:api        # API integration tests (Frisby/Jest)
+```
+
+### Frontend Tests
+
+```bash
+cd frontend
+npm test                # Unit tests (Jasmine/Karma)
+npm run e2e            # E2E tests (Cypress)
+```
+
+### E2E Tests
+
+```bash
+npm run cypress:open    # Open Cypress UI
+npm run cypress:run     # Run Cypress headless
+```
+
+### Test Coverage
+
+Test coverage reports are generated in `build/reports/coverage/`:
+- Server tests coverage
+- API tests coverage
+- Frontend tests coverage
+
+## Deployment
+
+### Docker
+
+```bash
+# Pull and run official image
+docker pull bkimminich/juice-shop
+docker run -d -p 3000:3000 bkimminich/juice-shop
+```
+
+### Docker Compose
+
+```bash
+docker-compose up -d
+```
+
+### Cloud Platforms
+
+Juice Shop can be deployed to various cloud platforms:
+
+- **Heroku**: One-click deployment available
+- **AWS**: EC2, ECS, Elastic Beanstalk
+- **Azure**: App Service, Container Instances
+- **Google Cloud**: App Engine, Cloud Run, GKE
+- **DigitalOcean**: Droplets, App Platform
+
+Detailed deployment guides available in the [companion guide](https://pwning.owasp-juice.shop/companion-guide/latest/part1/running.html).
+
+### Kubernetes
+
+Example Kubernetes deployment:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: juice-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: juice-shop
+  template:
+    metadata:
+      labels:
+        app: juice-shop
+    spec:
+      containers:
+      - name: juice-shop
+        image: bkimminich/juice-shop
+        ports:
+        - containerPort: 3000
+```
 
 ## Contributing
 
@@ -199,6 +504,15 @@ joined a conference talk or meetup session, a hacking workshop or public trainin
 
 Add it to our ever-growing list of [REFERENCES.md](REFERENCES.md) by forking and opening a Pull Request!
 
+## Community & Support
+
+- **Gitter Chat**: [![Gitter](http://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/bkimminich/juice-shop)
+- **GitHub Discussions**: Ask questions and share ideas
+- **Twitter**: [@owasp_juiceshop](https://twitter.com/owasp_juiceshop)
+- **Reddit**: [r/owasp_juiceshop](https://reddit.com/r/owasp_juiceshop)
+- **Official Website**: <https://owasp-juice.shop>
+- **Companion Guide**: <https://pwning.owasp-juice.shop>
+
 ## Merchandise
 
 * On [Spreadshirt.com](http://shop.spreadshirt.com/juiceshop) and
@@ -219,6 +533,44 @@ tick the "Publicly list me as a supporter of OWASP Juice Shop" checkbox on the d
 about donations and how they are used here:
 
 <https://pwning.owasp-juice.shop/companion-guide/latest/part3/donations.html>
+
+## FAQ
+
+<details>
+<summary><strong>Is this really an insecure application?</strong></summary>
+
+Yes! OWASP Juice Shop is **intentionally insecure**. It contains numerous security vulnerabilities for educational purposes.
+</details>
+
+<details>
+<summary><strong>Can I use this for my security training?</strong></summary>
+
+Absolutely! That's exactly what it's designed for. It's perfect for security trainings, workshops, CTFs, and awareness demos.
+</details>
+
+<details>
+<summary><strong>How do I reset the application?</strong></summary>
+
+Simply delete the `data/juiceshop.sqlite` database file and restart the application. It will recreate itself with default data.
+</details>
+
+<details>
+<summary><strong>Where can I find solutions to the challenges?</strong></summary>
+
+Solutions are available in the [companion guide](https://pwning.owasp-juice.shop) and in [SOLUTIONS.md](SOLUTIONS.md).
+</details>
+
+<details>
+<summary><strong>Can I customize Juice Shop for my organization?</strong></summary>
+
+Yes! Check out the [customization guide](https://pwning.owasp-juice.shop/companion-guide/latest/part4/customization.html).
+</details>
+
+<details>
+<summary><strong>Is Juice Shop suitable for beginners?</strong></summary>
+
+Yes! It includes a built-in hacking instructor tutorial mode that guides beginners through their first challenges.
+</details>
 
 ## Contributors
 
